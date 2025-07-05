@@ -75,8 +75,9 @@
     const cmdInput = document.getElementById("cmd");
 
       //answer to the secret code
-    const secretCode = "ASS";
+    const secretCode = "voidSecurity_HL2Bypass(RunAdministrator)";
       let hasFoundClue = false;
+      let awaitingDisconnect = false;
 
         // function for colored output
       function writeOutputHtml(html) {
@@ -100,11 +101,44 @@
       if (!command) return;
       writeOutput(command);
 
+      // Handle disconnect confirmation
+      if (awaitingDisconnect) {
+        if (command.toLowerCase() === "yes") {
+          writeOutput("  > Disconnecting CASTRO.EXE...");
+          writeOutput("  > CASTRO.EXE has been disconnected.");
+          writeOutput("  > ");
+          writeOutput("  > Goodbye.");
+          awaitingDisconnect = false;
+          cmdInput.value = "";
+          return;
+        } else if (command.toLowerCase() === "no") {
+          writeOutput("  > Disconnect cancelled.");
+          awaitingDisconnect = false;
+          cmdInput.value = "";
+          return;
+        } else {
+          writeOutput("Unknown command. Type 'help' for assistance.");
+          cmdInput.value = "";
+          return;
+        }
+      }
+
+      // Case-sensitive check for voidSecurity_HL2Bypass(RunAdministrator)
+      if (command === "voidSecurity_HL2Bypass(RunAdministrator)") {
+        writeOutput("> Opening User Administrator information...");
+        writeOutput("   > Role: Administrator");
+        writeOutput("     > Name: Lydia Castro");
+        writeOutput("     > Username: CSSHater1998");
+        writeOutput("     > Password: Fairywater123");
+        cmdInput.value = "";
+        return;
+      }
+
       switch (command.toLowerCase()) {
 
           //commands that gives output that isn't "unknown command"
         case "help":
-          writeOutput("Available commands: scan, open <file name>, help, login");
+          writeOutput("Available commands: scan, open <file name>, run <command>, help");
           break;
 
         case "1-800":
@@ -150,11 +184,22 @@
           break;
 
           // information about lydia castro
+          
+          if (command === "voidSecurity_HL2Bypass(RunAdministrator)") {
+            writeOutput("> Opening User Administrator information...");
+            writeOutput("   > Role: Administrator");
+            writeOutput("     > Name: Lydia Castro");
+            writeOutput("     > Username: CSSHater1998");
+            writeOutput("     > Password: Fairywater123");
+            cmdInput.value = "";
+            return;
+          }
+
           case "login":
           writeOutput("  > enter username");
           break;
 
-        case "csshater1998":
+          case "csshater1998":
           writeOutput("  > enter password");
           break;
 
@@ -174,29 +219,42 @@
             return;
           }
 
-          if (command === "voidSecurity_HL2(RunAdministrator)") {
-            writeOutput("> Opening User Administrator information...");
-            writeOutput("   > Role: Administrator");
-            writeOutput("     > Name: Lydia Castro");
-            writeOutput("     > Username: CSSHater1998");
-            writeOutput("     > Password: Fairywater123");
-            cmdInput.value = "";
-            return;
-          }
+
 
         default:
-          if (command.startsWith("enter ")) {
+          if (command.startsWith("run ")) {
             const userCode = command.split(" ")[1];
             if (userCode === secretCode) {
-              writeOutput("Correct code! You've unlocked the system.");
+            writeOutput("> Opening User Administrator information...");
+            writeOutput("   > Role: Administrator");
+            writeOutput("     > Owner: Lydia Castro");
+            writeOutput("     > Username: CSSHater1998");
+            writeOutput("     > Password: Fairywater123");
+            writeOutput(" ");
+            writeOutput("Available Administrator Commands: wpscan, wpip, disconnect");
             } else {
-              writeOutput("Incorrect code. Try again.");
+              writeOutput("Invalid command. Type 'help' for assistance.");
             }
           } else {
             writeOutput("Unknown command. Type 'help' for assistance.");
           }
           break;
-      
+
+          case "wpscan":
+          writeOutput("  > Available commands: hey");
+          break;
+
+          case "wpip":
+          writeOutput("  > Available commands: hey");
+          break;
+
+          case "disconnect":
+          writeOutput("  > Are you sure you want to disconnect?");
+          writeOutput("     > Yes");
+          writeOutput("     > No");
+          awaitingDisconnect = true;
+          break;
+
           // Commands to clear all output in the terminal
           case "reset":
       output.innerHTML = ""; 
