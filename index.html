@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CASTRO.EXE</title>
+        <style>
+            body {
+            background-color: black;
+            color: #39ff14;
+            font-family: monospace;
+            padding: 20px;
+            }
+
+            h2 {
+            border-top: 2px solid #39ff14;
+            border-left: 2px solid #39ff14;
+            border-right: 2px solid #39ff14;
+            padding: 10px;
+            margin-bottom: 0;
+            }
+
+            #terminal {
+              border: 2px solid #39ff14;
+              background-color: #000;
+              position: relative;
+              margin-top: 0;
+              height: 550px;
+              display: flex;
+              flex-direction: column;
+              padding: 0;
+            }
+
+            #output {
+              flex: 1;
+              overflow-y: auto;
+              padding: 20px;
+              color: #39ff14;
+              font-family: monospace;
+              white-space: pre;
+            }
+
+            #inputLine {
+              display: flex;
+              padding: 10px;
+              background-color: #000;
+              position: relative;
+            }
+            
+            #cmd {
+            background-color: #000;
+            color: #39ff14;
+            border: none;
+            outline: none;
+            flex: 1;
+            font-family: monospace;
+            font-size: 16px;
+            }
+        </style>
+
+</head>
+<body>
+  <h2>CASTRO.EXE</h2>
+    <div id="terminal">
+      <div id="output"></div>
+      <div id="inputLine">
+        <span>&gt;</span>
+        <input type="text" id="cmd" autofocus />
+      </div>
+    </div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+    const output = document.getElementById("output");
+    const cmdInput = document.getElementById("cmd");
+
+      //answer to the secret code
+    const secretCode = "ASS";
+      let hasFoundClue = false;
+
+        // function for colored output
+      function writeOutputHtml(html) {
+        const newLine = document.createElement("div");
+        newLine.style.whiteSpace = "pre";
+        newLine.innerHTML = html;
+        output.appendChild(newLine);
+        output.scrollTop = output.scrollHeight;
+      }
+
+        //function for normal output
+      function writeOutput(text) {
+        const newLine = document.createElement("div");
+        newLine.style.whiteSpace = "pre";
+        newLine.textContent = text;
+        output.appendChild(newLine);
+        output.scrollTop = output.scrollHeight;
+      }
+
+    function handleCommand(command) {
+      if (!command) return;
+      writeOutput(command);
+
+      switch (command.toLowerCase()) {
+
+          //commands that gives output that isn't "unknown command"
+        case "help":
+          writeOutput("Available commands: scan, open <file name>, help, login");
+          break;
+
+        case "1-800":
+          writeOutput(" > STREAM 1-800");
+          break;
+
+        case "hello":
+          writeOutput("  > hey :)");
+          break;
+
+        case "scan":
+          writeOutput("> Scanning directory...");
+          writeOutput(" > Files found: 6");
+          writeOutput("   > file1.txt");
+          writeOutput("   > lossantos.txt");
+          writeOutput("   > dontopen.txt");
+          writeOutput("   > secret.txt");
+          break;
+
+          // these are just for fun, rage messages
+        case "fuck this":
+          writeOutput("  > giving up this fast?");
+          writeOutput("     > come on bub, you can do this.");
+          writeOutput("     > let's hit the >reset and try again shall we?");
+          break;
+
+        case "fuck you":
+          writeOutputHtml(" > don't be <span style='color: red;'>rude</span>.");
+          writeOutput("     > let's hit the >reset and try again shall we?");
+          break;
+
+          break;
+
+          // if something has been said that wasn't in "help", opens something else
+        case "clue":
+          if (!hasFoundClue) {
+            writeOutput("Opening secret.txt...");
+            writeOutput("Clue: The code is a word followed by two digits. It starts with 'u'.");
+            hasFoundClue = true;
+          } else {
+            writeOutput("You already opened secret.txt.");
+          }
+          break;
+
+          // information about lydia castro
+          case "login":
+          writeOutput("  > enter username");
+          break;
+
+        case "csshater1998":
+          writeOutput("  > enter password");
+          break;
+
+          if (command === "CSSHater1998") {
+            writeOutput("  > enter password");
+            cmdInput.value = "";
+            return;
+          }
+          
+          case "fairywater123":
+          writeOutput("  > Available commands: hey");
+          break;
+
+          if (command === "Fairywater123") {
+            writeOutput("  > enter password");
+            cmdInput.value = "";
+            return;
+          }
+
+          if (command === "voidSecurity_HL2(RunAdministrator)") {
+            writeOutput("> Opening User Administrator information...");
+            writeOutput("   > Role: Administrator");
+            writeOutput("     > Name: Lydia Castro");
+            writeOutput("     > Username: CSSHater1998");
+            writeOutput("     > Password: Fairywater123");
+            cmdInput.value = "";
+            return;
+          }
+
+        default:
+          if (command.startsWith("enter ")) {
+            const userCode = command.split(" ")[1];
+            if (userCode === secretCode) {
+              writeOutput("Correct code! You've unlocked the system.");
+            } else {
+              writeOutput("Incorrect code. Try again.");
+            }
+          } else {
+            writeOutput("Unknown command. Type 'help' for assistance.");
+          }
+          break;
+      
+          // Commands to clear all output in the terminal
+          case "reset":
+      output.innerHTML = ""; 
+      hasFoundClue = false;
+      break;
+
+          case "clear":
+      output.innerHTML = "";
+      hasFoundClue = false; 
+      break;
+
+          case "delete":
+      output.innerHTML = "";
+      hasFoundClue = false; 
+      break;
+        }
+
+      cmdInput.value = "";
+    }
+
+    cmdInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        handleCommand(cmdInput.value);
+      }
+    });
+  </script>
+</body>
+</html>
