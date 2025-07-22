@@ -193,7 +193,6 @@ function typeOutputHtml(html, delay = 60, callback) {
       typeOutput("      > WPIP booted up successfully.", 50, function() {
       typeOutput("      > ", 50, function() {
       typeOutput("      > INSERT IP ADDRESS", 50);
-      awaitingDisconnect = true;
       });
     });
   });
@@ -269,7 +268,7 @@ function typeOutputHtml(html, delay = 60, callback) {
 
           //commands that gives output that isn't "unknown command"
         case "help":
-          writeOutput("> Available commands: scan, open <file name>, run <command>, login, help, disconnect");
+          writeOutput("> Available commands: scan, open <file name>, run <command>, login, help");
           break;
 
         case "1-800":
@@ -377,7 +376,7 @@ function typeOutputHtml(html, delay = 60, callback) {
 
           case "csshater1998":
           writeOutputHtml("><span style='color: yellow;'> enter password</span>");
-          break;
+          break;          
 
           case "open lossantos.txt":
                   typeOutput("  > Opening lossantos.txt...", 70, function() {
@@ -590,8 +589,8 @@ function typeOutputHtml(html, delay = 60, callback) {
           writeOutputHtml("<span style='color: pink;'>LOLOLOLOLOL</span>");
           writeOutputHtml("<span style='color: pink;'>I suggest you do >reset here.</span>");
           break;
-
-            case "103.647.187.2":
+          
+          case "103.647.187.2":
           writeOutput("  > INPUT DB");
           break;
 
@@ -601,13 +600,7 @@ function typeOutputHtml(html, delay = 60, callback) {
           
           case "castrolaptop":
           writeOutput("  > Command Unlocked: ipttlaptopkitty");
-          break;
-
-          if (command ===  "103.647.187.2") {
-          writeOutput("  > INPUT DB");
-            cmdInput.value = "";
-            return;
-          }
+          break; 
 
           case "disconnect":
           typeOutput("  > Are you sure you want to disconnect?");
