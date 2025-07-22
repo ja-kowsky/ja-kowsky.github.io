@@ -25,7 +25,7 @@
               background-color: #000;
               position: relative;
               margin-top: 0;
-              height: 550px;
+              height: 600px;
               display: flex;
               flex-direction: column;
               padding: 0;
@@ -56,11 +56,21 @@
             font-family: monospace;
             font-size: 16px;
             }
+
+            #credits {
+            position: right;
+            bottom: 0px;
+            right: 10px;
+            font-size: 5px;
+            color: #00ff00; 
+            font-family: monospace;
+            opacity: 0.5;
+            pointer-events: none;
+          }
         </style>
 
 </head>
 <body>
-  <h2>CASTRO.EXE</h2>
     <div id="terminal">
       <div id="output"></div>
       <div id="inputLine">
@@ -75,9 +85,18 @@
     const cmdInput = document.getElementById("cmd");
 
       //answer to the secret code
-    const secretCode = "voidSecurity_HL2Bypass(RunAdministrator)";
+    const admininfo = "voidSecurity_HL2Bypass(RunAdministrator)";
+    const file1txt = "file1.txt";
+    const lossantoscache = "lossantos.cache";
+    const dontopenexe = "dontopen.exe";
+    const secret3exe = "secret3.exe";
+    const grocerylistexe = "grocerylist.exe";
+
       let hasFoundClue = false;
       let awaitingDisconnect = false;
+      let hasfoundadminhelp = false;
+      let hasloggedin = false;
+      let username = false;
 
         // function for colored output
       function writeOutputHtml(html) {
@@ -96,72 +115,212 @@
         output.appendChild(newLine);
         output.scrollTop = output.scrollHeight;
       }
+// for typeoutput to have delay for each sentence
+function typeOutput(text, delay = 60, callback) {
+  const newLine = document.createElement("div");
+  newLine.style.whiteSpace = "pre";
+  output.appendChild(newLine);
+  let i = 0;
+
+  function typeChar() {
+    if (i <= text.length) {
+      newLine.textContent = text.slice(0, i);
+      i++;
+      setTimeout(typeChar, delay);
+    } else {
+      output.scrollTop = output.scrollHeight;
+      if (callback) callback();
+    }
+  }
+  typeChar();
+}
+// for HTML usage on typeoutputs
+function typeOutputHtml(html, delay = 60, callback) {
+  const newLine = document.createElement("div");
+  newLine.style.whiteSpace = "pre";
+  output.appendChild(newLine);
+  let i = 0;
+
+  function typeChar() {
+    if (i <= html.length) {
+      newLine.innerHTML = html.slice(0, i);
+      i++;
+      setTimeout(typeChar, delay);
+    } else {
+      output.scrollTop = output.scrollHeight;
+      if (callback) callback();
+    }
+  }
+
+  typeChar();
+}
 
     function handleCommand(command) {
       if (!command) return;
       writeOutput(command);
 
-      // Handle disconnect confirmation
-      if (awaitingDisconnect) {
-        if (command.toLowerCase() === "yes") {
-          writeOutput("  > Disconnecting CASTRO.EXE...");
-          writeOutput("  > CASTRO.EXE has been disconnected.");
-          writeOutput("  > ");
-          writeOutput("  > Goodbye.");
-          awaitingDisconnect = false;
-          cmdInput.value = "";
-          return;
-        } else if (command.toLowerCase() === "no") {
-          writeOutput("  > Disconnect cancelled.");
-          awaitingDisconnect = false;
-          cmdInput.value = "";
-          return;
-        } else {
-          writeOutput("Unknown command. Type 'help' for assistance.");
-          cmdInput.value = "";
-          return;
-        }
-      }
-
-      // Case-sensitive check for voidSecurity_HL2Bypass(RunAdministrator)
-      if (command === "voidSecurity_HL2Bypass(RunAdministrator)") {
-        writeOutput("> Opening User Administrator information...");
-        writeOutput("   > Role: Administrator");
-        writeOutput("     > Name: Lydia Castro");
-        writeOutput("     > Username: CSSHater1998");
-        writeOutput("     > Password: Fairywater123");
+        if (command === "ipttlcastro") {
+        typeOutput("     > Available commands: location, disconnect.");
         cmdInput.value = "";
         return;
       }
+
+        if (command === "Fairywater123") {
+      typeOutput("  > Welcome, admin.", 50, function() {
+      typeOutput("  > You now have full access.", 50, function() {
+      typeOutput("  > Type 'adminhelp' for a list of commands.", 50);
+    });
+  });
+         cmdInput.value = "";
+      return;
+    }
+
+        if (command === "disconnect") {
+      typeOutput("  > Are you sure you want to disconnect?", 50, function() {
+      typeOutput("      > Yes", 50, function() {
+      typeOutput("      > No", 50);
+      awaitingDisconnect = true;
+    });
+  });
+         cmdInput.value = "";
+      return;
+    }
+
+       if (command === "wpip") {
+      typeOutput("  > Booting up WPIP...", 50, function() {
+      typeOutput("      > WPIP booted up successfully.", 50, function() {
+      typeOutput("      > ", 50, function() {
+      typeOutput("      > INSERT IP ADDRESS", 50);
+      awaitingDisconnect = true;
+      });
+    });
+  });
+         cmdInput.value = "";
+      return;
+    }
+          // Handle disconnect confirmation
+          if (awaitingDisconnect) {
+            if (command.toLowerCase() === "yes") {
+              typeOutput("  > Disconnecting CASTRO.EXE...", 50, function () {
+                typeOutput("  > CASTRO.EXE has been disconnected.", 50, function () {
+                  typeOutput("  > ", 50, function () {
+                    typeOutput("  > Goodbye, detective :)", 50, function () {
+                      // Clear terminal after delay to let "Goodbye" display
+                      setTimeout(() => {
+                        output.innerHTML = "";
+                      }, 1500); 
+                    });
+                  });
+                });
+              });
+
+              awaitingDisconnect = false;
+              cmdInput.value = "";
+              return;
+            } else if (command.toLowerCase() === "no") {
+              typeOutput("  > Disconnect cancelled.");
+              awaitingDisconnect = false;
+              cmdInput.value = "";
+              return;
+            } else {
+              writeOutput("Unknown command. Type 'help' for assistance.");
+              cmdInput.value = "";
+              return;
+            }
+          }
+
+      if (command === "location") {
+        typeOutput("C:/Users/lydia/Desktop/laptoptracker/castro.exe/coordinates", 40, function() {
+          typeOutput("  ", 40, function() {
+            typeOutput("  > Ping Coordinates: X: -2219.334 | Y: 258.697", 40, function() {
+            typeOutput("  > Current Status: ONLINE", 40, function() {
+          });
+          });
+          });
+        });
+        cmdInput.value = "";
+        return;
+      }       
+
+
+          // information about lydia castro          
+          if (command === "voidSecurity_HL2Bypass(RunAdministrator)") { 
+            typeOutput("> Security Bypass Command Entered...", 40, function() {
+            typeOutput("> Bypassing Administration Security...", 40, function() {
+            typeOutput("> Opening User Administrator information...", 40, function() {
+            typeOutput("   > Role: Administrator", 20, function() {
+            typeOutput("     > Name: Lydia Castro", 20, function() {
+            typeOutput("     > Username: CSSHater1998", 20, function() {
+            typeOutput("     > Password: Fairywater123", 20, function() {
+            cmdInput.value = "";
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+        return              
+          }
 
       switch (command.toLowerCase()) {
 
           //commands that gives output that isn't "unknown command"
         case "help":
-          writeOutput("Available commands: scan, open <file name>, run <command>, help");
+          writeOutput("> Available commands: scan, open <file name>, run <command>, login, help");
           break;
 
         case "1-800":
-          writeOutput(" > STREAM 1-800");
+          typeOutput(" > STREAM 1-800 BY BBNO$", 30, function(){
+          })
           break;
 
         case "hello":
-          writeOutput("  > hey :)");
-          break;
-
+          typeOutput("  > what's up :)", 30, function(){
+          typeOutput("  > Unfortunately, I'm not here to chat.", 30, function(){
+          typeOutput("  > Input 'help' for a list of commands.",30, function(){
+            });
+          });
+        });
+        break;
+        
+          case "hey":
+          typeOutput("  > what's up :)", 30, function(){
+          typeOutput("  > Unfortunately, I'm not here to chat.", 30, function(){
+          typeOutput("  > Input 'help' for a list of commands.",30, function(){
+            });
+          });
+        });
+        break;
+          
         case "scan":
-          writeOutput("> Scanning directory...");
-          writeOutput(" > Files found: 6");
-          writeOutput("   > file1.txt");
-          writeOutput("   > lossantos.txt");
-          writeOutput("   > dontopen.txt");
-          writeOutput("   > secret.txt");
+          typeOutput("> Scanning directory...", 50, function(){
+          typeOutput(" > Files found: 6", 50, function(){
+          typeOutput("   > file1.txt", 0, function(){
+          typeOutput("   > lossantos.txt", 0, function(){
+          typeOutput("   > dontopen.zip", 0, function(){
+          typeOutput("   > secret3.exe", 0, function(){;
+          typeOutput("   > booklist.doc", 0, function(){
+          typeOutput("   ", 100, function(){
+          typeOutput("   ", 100, function(){  
+          writeOutput("   > One (1) file hidden", 15, function(){
+                         });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
           break;
 
+          
           // these are just for fun, rage messages
         case "fuck this":
           writeOutput("  > giving up this fast?");
-          writeOutput("     > come on bub, you can do this.");
+          writeOutput("     > come on, you can do this.");
           writeOutput("     > let's hit the >reset and try again shall we?");
           break;
 
@@ -170,88 +329,281 @@
           writeOutput("     > let's hit the >reset and try again shall we?");
           break;
 
+          case "meow":
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW </span>WHAT <span style='color: pink;'>MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW </span>DID  <span style='color: pink;'>MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW </span>YOU  <span style='color: pink;'>MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW </span>EXPECT    <span style='color: pink;'>MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW </span>HERE <span style='color: pink;'>MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW </span>LOL  <span style='color: pink;'>MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
+          writeOutputHtml("<span style='color: pink;'>> MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW</span>");
           break;
 
           // if something has been said that wasn't in "help", opens something else
-        case "clue":
-          if (!hasFoundClue) {
-            writeOutput("Opening secret.txt...");
-            writeOutput("Clue: The code is a word followed by two digits. It starts with 'u'.");
-            hasFoundClue = true;
-          } else {
-            writeOutput("You already opened secret.txt.");
-          }
+        case "open castro.exe":
+            typeOutput("  > Opening castro.exe...", 70, function() {
+            typeOutput("      > Unlocking Administrator Command", 100, function() {
+            typeOutput("     ", 200, function() {
+            typeOutput("      > voidSecurity_HL2Bypass(RunAdministrator)", 0, function() {
+          });
+        });
+      });
+    });
+          break;
+        
+        case "adminhelp":
+          writeOutput("  > Available Administrator Commands: adminhelp, wpscan, wpip, meow, disconnect");
           break;
 
-          // information about lydia castro
-          
-          if (command === "voidSecurity_HL2Bypass(RunAdministrator)") {
-            writeOutput("> Opening User Administrator information...");
-            writeOutput("   > Role: Administrator");
-            writeOutput("     > Name: Lydia Castro");
-            writeOutput("     > Username: CSSHater1998");
-            writeOutput("     > Password: Fairywater123");
-            cmdInput.value = "";
-            return;
-          }
-
           case "login":
-          writeOutput("  > enter username");
+          writeOutputHtml("><span style='color: yellow;'> enter username</span>");
           break;
 
           case "csshater1998":
-          writeOutput("  > enter password");
+          writeOutputHtml("><span style='color: yellow;'> enter password</span>");
+          break;
+
+          case "open lossantos.txt":
+                  typeOutput("  > Opening lossantos.txt...", 70, function() {
+                  typeOutputHtml("  > <span style='color: yellow;'>(2)</span> Bay City Avenue", 10, function() {
+                  typeOutputHtml("  > <span style='color: yellow;'>(6)</span> Lake Vinewood Drive", 10, function() {
+                  typeOutputHtml("  > <span style='color: yellow;'>(1)</span> Cypress Flats", 10, function() {
+                  typeOutputHtml("  > <span style='color: yellow;'>(5)</span> Wild Oats Drive", 10, function() {
+                  typeOutputHtml("  > <span style='color: yellow;'>(3)</span> Amarillo Vista", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  ", 10, function() {
+                  typeOutput("  > + ", 20, function() {
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
           break;
 
           if (command === "CSSHater1998") {
-            writeOutput("  > enter password");
+            typeOutput("  > enter password");
             cmdInput.value = "";
             return;
           }
-          
-          case "fairywater123":
-          writeOutput("  > Available commands: hey");
-          break;
 
           if (command === "Fairywater123") {
-            writeOutput("  > enter password");
+            typeOutput("  > enter password");
             cmdInput.value = "";
             return;
           }
 
 
 
-        default:
-          if (command.startsWith("run ")) {
-            const userCode = command.split(" ")[1];
-            if (userCode === secretCode) {
-            writeOutput("> Opening User Administrator information...");
-            writeOutput("   > Role: Administrator");
-            writeOutput("     > Owner: Lydia Castro");
-            writeOutput("     > Username: CSSHater1998");
-            writeOutput("     > Password: Fairywater123");
-            writeOutput(" ");
-            writeOutput("Available Administrator Commands: wpscan, wpip, disconnect");
+            default:
+              if (command.toLowerCase().startsWith("open ")) {
+                const openTarget = command.slice(5).trim().toLowerCase();
+                if (openTarget === "file1.txt") {
+                  typeOutput("  > Opening file1.txt...", 50, function () {
+                  typeOutput("  > hey :)", 50, function () {
+                  });
+                  });
+                } else if (openTarget === "secret3.exe") {
+                  typeOutput("  > Opening lossantos.cache...", 50, function () {
+                  typeOutput("  > Bay City Avenue", 50, function () {
+                    });
+                    });
+                } else if (openTarget === "dontopen.zip") {
+                  typeOutput("  > Opening dontopen.zip...", 50, function () {
+                  typeOutput("  > Try opening the obvious file..", 50, function () {
+                  typeOutput("  > If you get what I mean.", 50, function () {
+                  typeOutput("  > :)", 50, function () {
+                    });
+                    });
+                    });
+                    });
+                } else if (openTarget === "booklist.doc") {
+                  typeOutput("  > Opening booklist.doc...", 50, function () {
+                  typeOutput("  > P̶l̶a̶n̶t̶s̶ ̶K̶i̶l̶l̶:̶ ̶H̶i̶s̶t̶o̶r̶y̶ ̶o̶f̶ ̶t̶h̶e̶ ̶W̶o̶r̶l̶d̶'̶s̶ D̶a̶n̶g̶e̶r̶o̶u̶s̶ ̶P̶l̶a̶n̶t̶s", 20, function () {
+                  typeOutput("  > Fallen City - The Rise of Evil", 20, function () {
+                  typeOutput("  > C̶h̶a̶s̶i̶t̶y̶ ̶D̶a̶w̶e̶s̶ -̶ ̶T̶h̶e̶ T̶a̶r̶o̶t̶ ̶C̶a̶r̶d̶ ̶K̶i̶l̶l̶e̶r̶", 20, function () {
+                  typeOutput("  > Problematic Solutions - Your Only Guide to Programming and Hacking", 20, function () {
+                  typeOutput("  > Electrical For Dummies - The Comprehensive Guide", 20, function () {
+                  typeOutput("  > Dragons Den Part 3", 20, function () {
+                  typeOutput("  > B̶i̶t̶t̶e̶r̶ ̶B̶l̶o̶o̶d̶ ̶-̶ ̶T̶h̶e̶ ̶S̶t̶o̶r̶y̶ ̶o̶f̶ ̶V̶a̶l̶k̶o̶ ̶Y̶o̶r̶d̶a̶n̶o̶v̶ ", 20, function () {
+                    });
+                  });
+                });
+                });
+                });
+                });
+                });
+                });
+
+                } else {
+                  writeOutput("Invalid command. Type 'help' for assistance.");
+                }
+
+              } else if (command.toLowerCase().startsWith("run ")) {
+                const runTarget = command.slice(4).trim().toLowerCase();
+                if (runTarget === admininfo.toLowerCase()) {
+                  typeOutput("> Opening User Administrator information...", 50, function () {
+                  typeOutput("   > Role: Administrator", 50, function () {
+                  typeOutput("     > Owner: Lydia Castro", 50, function () {
+                  typeOutput("     > Username: CSSHater1998", 50, function () {
+                  typeOutput("     > Password: Fairywater123", 50, function () {
+                  typeOutput(" ", 50, function () {
+                  });
+                  });
+                  });
+                  });
+                  });
+                  });
+                  } else if (runTarget === "define.ip_hl2kortz") {
+                    typeOutput("  > Running secret3.exe...", 50, function () {
+                    typeOutput("  > [TOP SECRET DATA]", 50, function () {
+                      });
+                      });
+                  } else {
+                    writeOutput("Invalid command. Type 'help' for assistance.");
+                  }
+         
+         // INJECTIONS FOR WPASCAN
+                } else if (command.toLowerCase().startsWith("inject ")) {
+                const injectTarget = command.slice(7).trim().toUpperCase();
+          // Castro_W
+                if (injectTarget === "F7:UI:3B:4C") {
+                typeOutput("  > Injecting BSSID...", 50, function () {
+                  typeOutput("  > Injection successful!", 50, function () {
+                    typeOutput(" ", 20, function () {
+                      typeOutput("> IP: 103.647.187.2", 50, function () {
+                        typeOutput("> DB: 846", 50, function () {
+                          typeOutput("> NAME: CODETHIS", 50);
+                          });
+                        });
+                      });
+                    });
+                  });     
+          // PlantMother
+              } else if (injectTarget === "X3:AL:0G:2M") {
+              typeOutput("  > Injecting core sequence...", 50, function () {
+                typeOutput("  > Injection Unsuccessful.", 50);
+                typeOutput("  > Unknown Error Encountered - Unable to access core.", 50);
+              });   
+          // LSPAW
+               } else if (injectTarget === "O4:DF:6B:9A") {
+              typeOutput("  > Injecting BSSID...", 50, function () {
+                typeOutput("  > Injection Unsuccessful.", 50);
+                typeOutput("  > PWR too low - Device Inactive.", 50);
+                });      
+          // SandyCastle
+              } else if (injectTarget === "A6:HJ:7N:1S") {
+              typeOutput("  > Initiating BSSID override...", 50, function () {
+              typeOutput("  > Injection successful!", 50, function () {
+                    typeOutput(" ", 20, function () {
+                      typeOutput("> IP: 129.003.584.4", 50, function () {
+                        typeOutput("> DB: 284", 50, function () {
+                          typeOutput("> NAME: SANDYSHORES", 50);
+              });
+              });
+              });
+              });
+              });
+           // AnnieLaptop
+              } else if (injectTarget === "M2:LO:A3:0W") {
+              typeOutput("  > Initiating BSSID override...", 50, function () {
+              typeOutput("  > Injection Unsuccessful.", 50);
+              typeOutput("  > PWR too low - Device Inactive.", 50);
+              });
+                } else {
+                writeOutput("Invalid inject target. Type 'help' for assistance.");
+              }
             } else {
-              writeOutput("Invalid command. Type 'help' for assistance.");
+              writeOutput("Unknown command. Type 'help' for assistance.");
             }
-          } else {
-            writeOutput("Unknown command. Type 'help' for assistance.");
-          }
-          break;
+              break;
+
+          case "ok(RunAdministrator)": 
+            typeOutput("> Security Bypass Command Entered...", 40, function() {
+            typeOutput("> Bypassing Administration Security...", 40, function() {
+            typeOutput("> Opening User Administrator information...", 40, function() {
+            typeOutput("   > Role: Administrator", 20, function() {
+            typeOutput("     > Name: Lydia Castro", 20, function() {
+            typeOutput("     > Username: CSSHater1998", 20, function() {
+            typeOutput("     > Password: Fairywater123", 20, function() {
+                         });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+          return;
 
           case "wpscan":
-          writeOutput("  > Available commands: hey");
+              typeOutput("Scanned Available Devices     Results", 50, function() {
+              typeOutput("DEID:              BSSID          CH         PWR        SIGN", 30, function() {
+              typeOutput("PlantMother        X3:AL:0G:2M    78         39         324.10N", 0, function() {
+              typeOutput("SandyCastle        A6:HJ:7N:1S    43         54         398.75N", 0, function() {
+              typeOutput("Castro_W           F7:UI:3B:4C    22         96         754.81N", 0, function() {
+              typeOutput("LSPAW              O4:DF:6B:9A    09         08         182.34N", 0, function() {
+              typeOutput("AnnieLaptop        M2:LO:A3:0W    38         03         113.91N", 0, function() {
+              typeOutput(" ", 20, function() {
+              typeOutput("wpCRACK > BSSID >", 35, function() {
+              typeOutput(" ", 20, function() {
+              typeOutput("> inject (BSSID) ", 35);
+                      });
+                    });
+                  });
+                });
+              });
+            });
+            });
+            });
+            });
+            });
+            break;
+
+          case "103.647.187.2":
+          writeOutput("  > INPUT DB");
           break;
 
-          case "wpip":
-          writeOutput("  > Available commands: hey");
+          case "846":
+          writeOutput("  > ENTER NAME");
           break;
+          
+
+
+          if (command ===  "103.647.187.2") {
+          writeOutput("  > INPUT DB");
+            cmdInput.value = "";
+            return;
+          }
+
+          if (command === "CODETHIS") {
+            writeOutput("  > ENTER NAME");
+            cmdInput.value = "";
+            return;
+          }
+
 
           case "disconnect":
-          writeOutput("  > Are you sure you want to disconnect?");
-          writeOutput("     > Yes");
-          writeOutput("     > No");
+          typeOutput("  > Are you sure you want to disconnect?");
+          typeOutput("     > Yes");
+          typeOutput("     > No");
           awaitingDisconnect = true;
           break;
 
@@ -281,5 +633,7 @@
       }
     });
   </script>
+  <div class="credits"><p>A jamskowsky project only to be used for ONX. All information is purely fictional and <u>not</u> real.</p>
+  </div>
 </body>
 </html>
